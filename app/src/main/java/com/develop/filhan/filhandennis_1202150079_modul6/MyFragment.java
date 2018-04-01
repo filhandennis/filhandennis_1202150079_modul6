@@ -27,6 +27,7 @@ import java.util.List;
 
 
 /**
+ * Class untuk Fragment dari My, menampilkan uploadan dariuser yang saat ini login
  * A simple {@link Fragment} subclass.
  */
 public class MyFragment extends Fragment {
@@ -66,15 +67,20 @@ public class MyFragment extends Fragment {
         recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
     }
 
+    /*
+    * Method LoadData digunakan untuk mengambil data dari FireBase
+    * */
     private void loadData(){
         final ProgressDialog loading=new ProgressDialog(getContext());
         loading.setMessage("Getting Data ...");
         loading.setCancelable(false);
         loading.show();
 
+        //Inisialisasi Firebase Object
         FirebaseDatabase mFirebaseDatabase;
         DatabaseReference mDatabase;
         mFirebaseDatabase=FirebaseDatabase.getInstance();
+        //Database Item Photos FirebaseReferences
         mDatabase=mFirebaseDatabase.getReference("photos");
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override

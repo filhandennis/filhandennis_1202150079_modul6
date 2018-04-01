@@ -34,6 +34,7 @@ public class ViewActivity extends AppCompatActivity {
 
     public static String EXTRA_ITEM = "EXTRA_VIEW_ITEM";
 
+    //Attibut Komponen View
     private TextView lblUser, lblTitle, lblCaption, lblLike;
     private ImageView lblImg;
     private EditText txtComment;
@@ -42,6 +43,7 @@ public class ViewActivity extends AppCompatActivity {
     private RecyclerView listComments;
     private ListView listViewComments;
 
+    //Attribut List
     private List<CommentModel> commentsList;
 
     @Override
@@ -49,6 +51,7 @@ public class ViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view);
 
+        //Inisialisasi Komponen View
         lblUser=(TextView)findViewById(R.id.lblViewUsername);
         lblTitle=(TextView)findViewById(R.id.lblViewTitle);
         lblCaption=(TextView)findViewById(R.id.lblViewCaption);
@@ -61,6 +64,7 @@ public class ViewActivity extends AppCompatActivity {
         listComments.setLayoutManager(new LinearLayoutManager(this));
         listViewComments=(ListView)findViewById(R.id.commentsList);
 
+        //Pengecekan Item yang dikirimkan intent Lain
         Intent ini = getIntent();
         if(ini.getParcelableExtra(EXTRA_ITEM)!=null){
             final PhotoModel data = ini.getParcelableExtra(EXTRA_ITEM);
@@ -96,6 +100,9 @@ public class ViewActivity extends AppCompatActivity {
         }
     }
 
+    /*
+    * Method yang digunakan untuk menambahkan komentar
+    * */
     public void insertComment(String id){
         String comment = txtComment.getText().toString();
         String user = FirebaseAuth.getInstance().getCurrentUser().getEmail();
@@ -110,10 +117,15 @@ public class ViewActivity extends AppCompatActivity {
         Toast.makeText(this, "Comment Inserted", Toast.LENGTH_SHORT).show();
     }
 
+    /*
+    * Method yang digunakan untuk mengambil data komen berdasarkan post yg dibuka.
+    * */
     public void loadComment(String id){
         final List<CommentModel> comments = new ArrayList<>();
         DatabaseReference commentsRef = FirebaseDatabase.getInstance().getReference().child("photos").child(id).child("comments");
 
+        //digunakan untuk mengambil Firebase Data berdasarkan referensi yang ada
+        // kemudian diubah menjadi list yang dapat digunakan pada List
         commentsRef.addValueEventListener(new ValueEventListener() {
 
             @Override

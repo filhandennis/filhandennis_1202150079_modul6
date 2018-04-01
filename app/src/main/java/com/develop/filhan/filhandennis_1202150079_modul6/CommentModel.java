@@ -3,7 +3,12 @@ package com.develop.filhan.filhandennis_1202150079_modul6;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 /**
- * Created by ASUS on 01/04/2018.
+ * Model Comment digunakan untuk Representasi atau Data apasaja
+ * untuk menyusun data komentar
+ *
+ * Terdapat 2 Attribut:
+ *  User = Nama User / User Email
+ *  Isi = Isi Komentar yang diberikan User
  */
 @IgnoreExtraProperties
 public class CommentModel {

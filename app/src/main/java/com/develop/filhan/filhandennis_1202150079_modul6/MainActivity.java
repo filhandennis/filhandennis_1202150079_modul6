@@ -29,12 +29,15 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    //Attribut untuk mendefinisian kode Intent Login
     public static final int RESUlT_CODE_LOGIN=1000;
 
+    //Attribut untuk Komponen View
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private ProgressDialog loading;
 
+    //Attribut untuk FireBase Object
     private FirebaseAuth auth;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabase;
@@ -48,19 +51,23 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //Inisialisasi Komponen View Loading
         loading=new ProgressDialog(this);
         photosList=new ArrayList<>();
 
+        //Inisialisasi Auth untuk FireBase Sebagai Lib untuk membantu User Login/Register
         auth=FirebaseAuth.getInstance();
+        //Pengecekan User, jika belum ada diarahkan ke intent SignIn
         if(auth.getCurrentUser()==null){
             startActivity(new Intent(getApplicationContext(),SignInActivity.class));
             finish();
         }
 
-
+        //Inisialisasi Komponen View bagian Tab
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
+        //Inisialisasi Komponen View
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_new);
@@ -70,11 +77,17 @@ public class MainActivity extends AppCompatActivity {
         //this.photosList = loadData();
     }
 
+    /*
+    * Method untuk keperluan Menu
+    * */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    /*
+    * Method untuk keperluan menu
+    * */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -83,6 +96,10 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+
+    /*
+        * Method untuk keperluan menu
+        * */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -105,6 +122,9 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /*
+    * Method untuk mengatur konfigurasi awal tampilan Tab
+    * */
     private void setupViewPager(ViewPager pager){
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPagerAdapter.addFragment(new RecentFragment(), "Recent");
@@ -112,6 +132,10 @@ public class MainActivity extends AppCompatActivity {
         pager.setAdapter(viewPagerAdapter);
     }
 
+    /*
+    * Class sebagai Adapter ViewPager
+    * Berisikan keperluan yang dibutuhkan untuk KOmponen Tab Layout
+    * */
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
@@ -142,6 +166,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /*
+    * Method untuk mengubah Email menjadi DisplayName tanpa @...
+    * */
     public String makeUsername(String email){
         return email.substring(0,email.lastIndexOf("@"));
     }

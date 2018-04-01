@@ -20,11 +20,13 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class SignInActivity extends AppCompatActivity {
 
+    //Attribut Komponen View
     private EditText txtUsername, txtPassword;
     private Button btnSignin;
     private TextView btnSignup;
     private ProgressDialog loading;
 
+    //Attribut Firebase Object
     private FirebaseAuth auth;
 
     @Override
@@ -32,18 +34,21 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
+        //Inisialisasi Komponen View
         txtUsername=(EditText)findViewById(R.id.txtLoginEmail);
         txtPassword=(EditText)findViewById(R.id.txtLoginPIN);
         btnSignin=(Button)findViewById(R.id.btnSignin);
         btnSignup=(TextView)findViewById(R.id.btnSignup);
-
         loading=(ProgressDialog)new ProgressDialog(this);
 
+        //Default Text untuk Username dan Password Sign In (biar ga ngetik ulang)
         txtUsername.setText("dennisfilhan.2@gmail.com");
         txtPassword.setText("121212");
 
+        //Inisialisasi FirebaseAuth
         auth=FirebaseAuth.getInstance();
 
+        //Button Action
         btnSignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,6 +63,10 @@ public class SignInActivity extends AppCompatActivity {
         });
     }
 
+    /*
+    * Method yang digunakan untuk Aksi Login
+    *   Kredensial diambil dari FirebaseAuth
+    * */
     public void login(){
         String user = txtUsername.getText().toString();
         String pin = txtPassword.getText().toString();
@@ -85,6 +94,10 @@ public class SignInActivity extends AppCompatActivity {
                 });
     }
 
+    /*
+        * Method yang digunakan untuk Aksi Register
+        *   Mendaftarkan user baru ke FirebaseDatabase
+        * */
     public void register(){
         String user = txtUsername.getText().toString();
         String pin = txtPassword.getText().toString();

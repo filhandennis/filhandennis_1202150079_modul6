@@ -57,7 +57,9 @@ public class RecentFragment extends Fragment {
 
 
 
-
+    /*
+    * Method LoadData digunakan untuk mengambil data dari FireBase
+    * */
     private void loadData(){
         final ProgressDialog loading=new ProgressDialog(getContext());
         loading.setMessage("Getting Data ...");

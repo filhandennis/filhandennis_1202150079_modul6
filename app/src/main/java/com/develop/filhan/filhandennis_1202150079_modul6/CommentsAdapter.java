@@ -9,17 +9,24 @@ import android.widget.TextView;
 import java.util.List;
 
 /**
- * Created by ASUS on 01/04/2018.
+ * Adapter Comment
+ *
+ * digunakan untuk mengubah list menjadi item data
  */
 
 public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.CommentViewHolder> {
 
+    // List digunakan untuk menampung data Komentar
     private List<CommentModel> commentList;
 
+    //Konstruktor membutuhkan List sebagaidata
     public CommentsAdapter(List<CommentModel> commentList) {
         this.commentList = commentList;
     }
 
+    /*
+    * ViewHolder sebagai Layout
+    * */
     @Override
     public CommentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
@@ -27,6 +34,9 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         return new CommentViewHolder(view);
     }
 
+    /*
+    * Method untuk tingkah laku si data
+    * */
     @Override
     public void onBindViewHolder(CommentViewHolder holder, int position) {
         CommentModel comment = commentList.get(position);
@@ -38,6 +48,9 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         return 0;
     }
 
+    /*
+    * Class ViewHolder digunakan untuk keperluan Layout
+    * */
     class CommentViewHolder extends RecyclerView.ViewHolder{
 
         private TextView lblUser, lblIsi;
@@ -49,6 +62,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             lblIsi=(TextView)itemView.findViewById(R.id.lblCommentTXT);
         }
 
+        //Method
         public void bindTo(CommentModel item){
             CommentModel curr = item;
             lblUser.setText(item.getUser());

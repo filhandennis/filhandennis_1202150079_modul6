@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 /**
+ * Adapter Photo dignakan untuk keperluan RecyclerView, mengubah Data menjadi Item Komponen View
  * Created by ASUS on 31/03/2018.
  */
 
@@ -21,6 +22,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
 
     private List<PhotoModel> list;
 
+    //Mengisi Daftar data saat Class dipanggil
     public PhotoAdapter(List<PhotoModel> list) {
         this.list = list;
     }
@@ -54,6 +56,9 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
         private ImageView lblImage;
         private Context context;
 
+        /*
+        * View Holder Constructor
+        * */
         public PhotoViewHolder(View v) {
             super(v);
 
@@ -65,6 +70,10 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
             lblImage=(ImageView)v.findViewById(R.id.lblPhotoImage);
         }
 
+        /*
+        * ViewHolder Behavior
+        * untuk melakukan set text pada Komponen View
+        * */
         public void bindTo(PhotoModel model){
             PhotoModel curr = model;
             lblUser.setText(curr.getDisplayName());
@@ -75,6 +84,9 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
             Glide.with(context).load(curr.getImgUrl()).error(R.drawable.ic_broken_image_black_24dp).into(lblImage);
         }
 
+        /*
+        * Method yang digunakan untuk menuju intent detail sesuai item yang dipilih
+        * */
         public void toDetail(PhotoModel model){
             Intent i = new Intent(context.getApplicationContext(),ViewActivity.class);
             i.putExtra(ViewActivity.EXTRA_ITEM, model);

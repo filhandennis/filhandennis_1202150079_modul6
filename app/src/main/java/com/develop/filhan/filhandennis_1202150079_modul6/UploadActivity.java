@@ -42,11 +42,10 @@ public class UploadActivity extends AppCompatActivity {
     private StorageReference storageReference;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabase;
-
+    //Attribut Komponen View
     private EditText txtTitle, txtCaption;
     private ImageView lblImage;
     private Button btnSelect, btnUpload;
-
     private ProgressDialog loading;
 
     @Override
@@ -54,11 +53,16 @@ public class UploadActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload);
 
+        //FirebaseAuth
         auth=FirebaseAuth.getInstance();
+        //Firebase Storage Object
         storageReference = FirebaseStorage.getInstance().getReference();
+        //Firebase Database Object
         mFirebaseDatabase = FirebaseDatabase.getInstance();
+        //Firebase Database Item Photo Reference
         mDatabase=mFirebaseDatabase.getReference("photos");
 
+        //Inisialisasi Komponen View
         txtTitle=(EditText)findViewById(R.id.txtUploadTitle);
         txtCaption=(EditText)findViewById(R.id.txtUploadCaption);
         lblImage=(ImageView)findViewById(R.id.lblUploadImage);
@@ -66,6 +70,7 @@ public class UploadActivity extends AppCompatActivity {
         btnUpload=(Button)findViewById(R.id.btnUploadSave);
         loading=new ProgressDialog(this);
 
+        //Button Action
         btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -80,6 +85,9 @@ public class UploadActivity extends AppCompatActivity {
         });
     }
 
+    /*
+    * Method untuk menampilkan menu filesystem
+    * */
     private void showFileChooser() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -87,6 +95,9 @@ public class UploadActivity extends AppCompatActivity {
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
+    /*
+    * OnActivityResult digunakan untuk menampilkan Gambar saat Gambar dipilih dari File Manager
+    * */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -101,33 +112,43 @@ public class UploadActivity extends AppCompatActivity {
         }
     }
 
+    /*
+    * Mengambil Ektensi File yang akan diupload
+    * */
     public String getFileExtension(Uri uri) {
         ContentResolver cR = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
 
+    //Aksi Upload
     private void upload(){
         if(filePath!=null) {
             loading.setMessage("Wait a Sec ...");
             loading.show();
             //getting the storage reference
             StorageReference sRef = storageReference.child("upload/" + System.currentTimeMillis() + "." + getFileExtension(filePath));
+            //Meletakkan file sesuai lokasi Firebase Storage
             sRef.putFile(filePath)
             .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    //Event saat Selesai/Berhasil
                     loading.dismiss();
 
+                    //Get Value
                     String user = auth.getCurrentUser().getEmail();
                     String title = txtTitle.getText().toString();
                     String caption = txtCaption.getText().toString();
                     String imgUrl = taskSnapshot.getDownloadUrl().toString();
+                    //Set Value to Model Item
                     PhotoModel model = new PhotoModel(user, title, caption, imgUrl, 0);
 
+                    //Upload ID
                     String uploadId = mDatabase.push().getKey();
                     Log.d("FIREBASE::KEYID","PUSHID: "+uploadId);
-                    model.setId(uploadId);
+                    model.setId(uploadId); //Set ID to Item before Upload
+                    //Upload Data ke FirebaseDatabase item photos
                     mDatabase.child(uploadId).setValue(model);
 
                     Toast.makeText(UploadActivity.this, "Upload Berhasil", Toast.LENGTH_SHORT).show();
@@ -137,6 +158,7 @@ public class UploadActivity extends AppCompatActivity {
             .addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
+                    //Event saat upload file Gagal
                     loading.dismiss();
                     Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                 }
@@ -144,6 +166,7 @@ public class UploadActivity extends AppCompatActivity {
             .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    //Event saat proses upload berlangsung
                     double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
                     loading.setMessage("Uploaded " + ((int) progress) + "%...");
                 }
