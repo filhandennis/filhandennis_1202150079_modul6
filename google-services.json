@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "975043414780",
+    "firebase_url": "https://androidtest1-19671.firebaseio.com",
+    "project_id": "androidtest1-19671",
+    "storage_bucket": "androidtest1-19671.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:975043414780:android:6b1f950ee4dec7d0",
+        "android_client_info": {
+          "package_name": "com.develop.filhan.filhandennis_1202150079_modul6"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "975043414780-ikkpc54rotakk0spd53mqkojqseo3odd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByNgfFZjKYbsYvIjVLANX0E5PW4h7KSHo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
