@@ -40,6 +40,7 @@ public class ViewActivity extends AppCompatActivity {
     private Button btnPost;
     private ProgressBar progressBar;
     private RecyclerView listComments;
+    private ListView listViewComments;
 
     private List<CommentModel> commentsList;
 
@@ -58,6 +59,7 @@ public class ViewActivity extends AppCompatActivity {
         btnPost=(Button)findViewById(R.id.btnComment);
         listComments=(RecyclerView) findViewById(R.id.commentsRecycler);
         listComments.setLayoutManager(new LinearLayoutManager(this));
+        listViewComments=(ListView)findViewById(R.id.commentsList);
 
         Intent ini = getIntent();
         if(ini.getParcelableExtra(EXTRA_ITEM)!=null){
@@ -113,17 +115,23 @@ public class ViewActivity extends AppCompatActivity {
         DatabaseReference commentsRef = FirebaseDatabase.getInstance().getReference().child("photos").child(id).child("comments");
 
         commentsRef.addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String> list = new ArrayList<>();
                 for(DataSnapshot postSnapshot : dataSnapshot.getChildren()){
                     CommentModel comment = postSnapshot.getValue(CommentModel.class);
                     comments.add(comment);
+                    list.add(""+comment.getUser()+" -- "+comment.getIsi());
                 }
                 Log.d("FIREBASE::COMMENTS","num:"+comments.size());
                 commentsList=comments;
 
-                CommentListAdapter dataAdapter = new CommentListAdapter(comments);
+                CommentsAdapter dataAdapter = new CommentsAdapter(comments);
                 listComments.setAdapter(dataAdapter);
+
+                ArrayAdapter listAdapter = new ArrayAdapter(ViewActivity.this, android.R.layout.simple_list_item_1, list);
+                listViewComments.setAdapter(listAdapter);
 
                 lblLike.setText(""+comments.size());
             }

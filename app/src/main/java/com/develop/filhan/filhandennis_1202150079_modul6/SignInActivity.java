@@ -39,8 +39,8 @@ public class SignInActivity extends AppCompatActivity {
 
         loading=(ProgressDialog)new ProgressDialog(this);
 
-        txtUsername.setText("filhandennis@gmail.com");
-        txtPassword.setText("dennis");
+        txtUsername.setText("dennisfilhan.2@gmail.com");
+        txtPassword.setText("121212");
 
         auth=FirebaseAuth.getInstance();
 
